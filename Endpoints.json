@@ -1,0 +1,222 @@
+[
+    {
+        "id": "6b15a72c08bd9030",
+        "type": "mysql",
+        "z": "c06f88104c6b335f",
+        "mydb": "cea7ed5b0a0f01e6",
+        "name": "DB",
+        "x": 370,
+        "y": 200,
+        "wires": [
+            [
+                "1d89135f9362c6a9"
+            ]
+        ]
+    },
+    {
+        "id": "64b6d4a8cb5dfc5c",
+        "type": "function",
+        "z": "c06f88104c6b335f",
+        "name": "QUERY",
+        "func": "msg.topic = 'SELECT  '+\n            'Expense_ID, '+\n            'Expense_Name, '+\n            'Expense_Amount, '+\n            'DATE_FORMAT(Expense_Datetime, \"%Y-%m-%d %H:%i\") as Expense_DateTime, '+\n            'Expense_Remarks '+\n            'FROM mytutorial.expenses;'\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 200,
+        "wires": [
+            [
+                "6b15a72c08bd9030"
+            ]
+        ]
+    },
+    {
+        "id": "8803ac67b6aace4b",
+        "type": "inject",
+        "z": "c06f88104c6b335f",
+        "name": "",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 110,
+        "y": 200,
+        "wires": [
+            [
+                "64b6d4a8cb5dfc5c"
+            ]
+        ]
+    },
+    {
+        "id": "1d89135f9362c6a9",
+        "type": "debug",
+        "z": "c06f88104c6b335f",
+        "name": "Result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "cef801336e444de7",
+        "type": "mysql",
+        "z": "c06f88104c6b335f",
+        "mydb": "cea7ed5b0a0f01e6",
+        "name": "DB",
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "a4c6acb84046bca4",
+                "d5c46af50f848ec9"
+            ]
+        ]
+    },
+    {
+        "id": "a24866634be830d0",
+        "type": "function",
+        "z": "c06f88104c6b335f",
+        "name": "QUERY",
+        "func": "msg.topic = 'SELECT  '+\n            'Expense_ID, '+\n            'Expense_Name, '+\n            'Expense_Amount, '+\n            'DATE_FORMAT(Expense_Datetime, \"%Y-%m-%d %H:%i\") as Expense_DateTime, '+\n            'Expense_Remarks '+\n            'FROM mytutorial.expenses;'\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 240,
+        "wires": [
+            [
+                "cef801336e444de7"
+            ]
+        ]
+    },
+    {
+        "id": "a4c6acb84046bca4",
+        "type": "debug",
+        "z": "c06f88104c6b335f",
+        "name": "Result",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "d5c46af50f848ec9",
+        "type": "http response",
+        "z": "c06f88104c6b335f",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 570,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "4ec0502629967bd9",
+        "type": "http request",
+        "z": "c06f88104c6b335f",
+        "name": "request",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.6:1882/tuts/expenses",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 240,
+        "y": 300,
+        "wires": [
+            [
+                "7779e000ad4d5618"
+            ]
+        ]
+    },
+    {
+        "id": "7779e000ad4d5618",
+        "type": "debug",
+        "z": "c06f88104c6b335f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 390,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "dded9782c90518cb",
+        "type": "inject",
+        "z": "c06f88104c6b335f",
+        "name": "Inject",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 300,
+        "wires": [
+            [
+                "4ec0502629967bd9"
+            ]
+        ]
+    },
+    {
+        "id": "82f8ae89bbe90771",
+        "type": "http in",
+        "z": "c06f88104c6b335f",
+        "name": "expenses",
+        "url": "/tuts/expenses",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 240,
+        "wires": [
+            [
+                "a24866634be830d0"
+            ]
+        ]
+    },
+    {
+        "id": "cea7ed5b0a0f01e6",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "mytutorial",
+        "tz": "+08:00",
+        "charset": "UTF8"
+    }
+]
