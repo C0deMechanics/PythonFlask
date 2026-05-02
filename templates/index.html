@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Node-RED UI Builder - Blank template</title>
+<meta name="description" content="Node-RED UI Builder - Blank template">
+
+<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}"/>
+<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-vue.css')}}"/>
+<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}"/>
+<html>
+    <body>
+    <div id="app">
+        <myheader></myheader>
+        <b-container fluid>
+             <router-view></router-view>
+        </b-container>
+     </div>
+     <script src="{{url_for('static',filename='js/vue.js')}}"></script>
+     <script src="{{url_for('static',filename='js/bootstrap-vue.js')}}"></script>
+     <script src="{{url_for('static',filename='js/bootstrap-vue-icons.js')}}"></script>
+     <script src="{{url_for('static',filename='js/httpVueLoader.js')}}"></script>
+     <script src="{{url_for('static',filename='js/vuex.js')}}"></script>
+     <script src="{{url_for('static',filename='js/vue-router.js')}}"></script>
+     <script src="{{url_for('static',filename='js/axios.js')}}"></script>
+     <script src="{{url_for('static',filename='js/md5.min.js')}}"></script>
+     <script src="{{url_for('static',filename='js/md5.min.js')}}"></script>
+     <script src="{{url_for('static',filename='js/chart.js')}}"></script>
+     <script src="{{url_for('static',filename='js/index.js')}}" type="module"></script>
+    </body>
+</html>
