@@ -15,8 +15,9 @@
 
 </head><body>
     <div id="app">
-        <myheader></myheader>
-        <b-container fluid>
+        <myheader :keys="user"></myheader>
+        <mylogin v-show="!user.islogged" :keys="user"></mylogin>
+        <b-container v-show="user.islogged" fluid>
             <router-view></router-view>
        </b-container>
      </div>
@@ -32,5 +33,12 @@
     <script src="../uibuilder/vendor/paho-mqtt/paho-mqtt.js"></script>
     <script src="./uibuilderfe.min.js"></script>
     <script src="./index.js" type="module"></script>
-
+    <!-- <script>
+        window.onload = function(){
+            var id = localStorage.getItem('token');         //check for valid session   
+            var session = {'topic':'Startup','token':id};  
+            uibuilder.start();                             //console.log(session); 
+            uibuilder.send(session);                       //always forward a message on startup
+        }
+    </script> -->
 </body></html>
