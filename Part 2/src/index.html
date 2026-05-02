@@ -15,7 +15,10 @@
 
 </head><body>
     <div id="app">
-        <mycomponent></mycomponent>
+        <myheader></myheader>
+        <b-container fluid>
+            <router-view></router-view>
+       </b-container>
      </div>
     <script src="../uibuilder/vendor/socket.io/socket.io.js"></script>
     <script src="../uibuilder/vendor/vue/dist/vue.js"></script>
@@ -23,7 +26,9 @@
     <script src="../uibuilder/vendor/bootstrap-vue/dist/bootstrap-vue-icons.js"></script>
     <script src="../uibuilder/vendor/http-vue-loader/src/httpVueLoader.js"></script>
     <script src="../uibuilder/vendor/vuex/dist/vuex.js"></script>
+    <script src="../uibuilder/vendor/vue-router/dist/vue-router.js"></script>
+    <script src="../uibuilder/vendor/chart.js/dist/chart.js"></script>
     <script src="./uibuilderfe.min.js"></script>
-    <script src="./index.js"></script>
+    <script src="./index.js" type="module"></script>
 
 </body></html>
