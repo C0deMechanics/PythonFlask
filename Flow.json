@@ -1,0 +1,154 @@
+[
+    {
+        "id": "4ec0502629967bd9",
+        "type": "http request",
+        "z": "c06f88104c6b335f",
+        "name": "request",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.6:1882/tuts/addexpense",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 240,
+        "y": 480,
+        "wires": [
+            [
+                "7779e000ad4d5618"
+            ]
+        ]
+    },
+    {
+        "id": "7779e000ad4d5618",
+        "type": "debug",
+        "z": "c06f88104c6b335f",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 390,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "dded9782c90518cb",
+        "type": "inject",
+        "z": "c06f88104c6b335f",
+        "name": "Inject",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"Expense_Name\":\"Electric Bill\",\"Expense_Amount\":2400,\"Expense_Datetime\":\"2019-12-26 09:52:01\",\"Expense_Remarks\":\"Test VECO\"}",
+        "payloadType": "json",
+        "x": 110,
+        "y": 480,
+        "wires": [
+            [
+                "4ec0502629967bd9"
+            ]
+        ]
+    },
+    {
+        "id": "55203cacc87b3389",
+        "type": "function",
+        "z": "c06f88104c6b335f",
+        "name": "QUERY",
+        "func": "msg.topic = `INSERT INTO expenses (Expense_Name, Expense_Amount, Expense_Datetime, Expense_Remarks) `+\n`VALUES ('${msg.payload.Expense_Name}',${msg.payload.Expense_Amount},'${msg.payload.Expense_Datetime}','${msg.payload.Expense_Remarks}');`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 240,
+        "y": 400,
+        "wires": [
+            [
+                "490cb966c5572811",
+                "47dff46e91e2f87c"
+            ]
+        ]
+    },
+    {
+        "id": "531c5124ee58329e",
+        "type": "http response",
+        "z": "c06f88104c6b335f",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 590,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "4ae5c7fce8711e38",
+        "type": "http in",
+        "z": "c06f88104c6b335f",
+        "name": "add",
+        "url": "/tuts/addexpense",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 400,
+        "wires": [
+            [
+                "55203cacc87b3389"
+            ]
+        ]
+    },
+    {
+        "id": "490cb966c5572811",
+        "type": "debug",
+        "z": "c06f88104c6b335f",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "topic",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "47dff46e91e2f87c",
+        "type": "mysql",
+        "z": "c06f88104c6b335f",
+        "mydb": "cea7ed5b0a0f01e6",
+        "name": "DB",
+        "x": 450,
+        "y": 400,
+        "wires": [
+            [
+                "531c5124ee58329e"
+            ]
+        ]
+    },
+    {
+        "id": "cea7ed5b0a0f01e6",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "mytutorial",
+        "tz": "+08:00",
+        "charset": "UTF8"
+    }
+]
