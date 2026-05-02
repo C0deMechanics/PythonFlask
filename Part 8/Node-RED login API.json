@@ -1,0 +1,73 @@
+[
+    {
+        "id": "4c6bd42c061ffcd9",
+        "type": "http in",
+        "z": "c06f88104c6b335f",
+        "name": "login",
+        "url": "/tuts/login",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 90,
+        "y": 620,
+        "wires": [
+            [
+                "74fe1618f62d9774"
+            ]
+        ]
+    },
+    {
+        "id": "74fe1618f62d9774",
+        "type": "function",
+        "z": "c06f88104c6b335f",
+        "name": "Query",
+        "func": "var user_code = msg.payload.user_code;\nvar password = msg.payload.password;\n\nmsg.topic = `SELECT * FROM mytutorial.t_usermaster \n             where user_code = '${user_code}' \n             and password = '${password}';`\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 210,
+        "y": 620,
+        "wires": [
+            [
+                "3eb4595404228c86"
+            ]
+        ]
+    },
+    {
+        "id": "3eb4595404228c86",
+        "type": "mysql",
+        "z": "c06f88104c6b335f",
+        "mydb": "cea7ed5b0a0f01e6",
+        "name": "DB",
+        "x": 330,
+        "y": 620,
+        "wires": [
+            [
+                "ba68d8e3b40cc3b0"
+            ]
+        ]
+    },
+    {
+        "id": "ba68d8e3b40cc3b0",
+        "type": "http response",
+        "z": "c06f88104c6b335f",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 450,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "cea7ed5b0a0f01e6",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "mytutorial",
+        "tz": "+08:00",
+        "charset": "UTF8"
+    }
+]

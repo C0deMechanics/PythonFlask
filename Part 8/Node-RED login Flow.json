@@ -1,0 +1,182 @@
+[
+    {
+        "id": "dd89e0896485f1a9",
+        "type": "link in",
+        "z": "c06f88104c6b335f",
+        "name": "",
+        "links": [
+            "cc232fd55666d59f",
+            "3dfbd4f077f13f4b",
+            "89e1a4ceac90b0d3"
+        ],
+        "x": 125,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2e8364255f20bfde",
+        "type": "switch",
+        "z": "c06f88104c6b335f",
+        "name": "modules",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Login",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Logout",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Startup",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 300,
+        "y": 80,
+        "wires": [
+            [
+                "b9b4546bca08157d"
+            ],
+            [
+                "3a9343d76bb40d2f"
+            ],
+            [
+                "8ce8a3f1d24b87b0"
+            ]
+        ]
+    },
+    {
+        "id": "b9b4546bca08157d",
+        "type": "function",
+        "z": "c06f88104c6b335f",
+        "name": "Login",
+        "func": "flow.set(msg.token, msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 20,
+        "wires": [
+            [
+                "89e1a4ceac90b0d3",
+                "1a0844636fea3a4f"
+            ]
+        ]
+    },
+    {
+        "id": "3a9343d76bb40d2f",
+        "type": "function",
+        "z": "c06f88104c6b335f",
+        "name": "Logout",
+        "func": "flow.set(msg.token, undefined);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 60,
+        "wires": [
+            [
+                "89e1a4ceac90b0d3",
+                "096608f9d8d74e86"
+            ]
+        ]
+    },
+    {
+        "id": "8ce8a3f1d24b87b0",
+        "type": "function",
+        "z": "c06f88104c6b335f",
+        "name": "Startup",
+        "func": "//If there is not token return session undefined\nif(msg.token == undefined)\n{\n    msg.session = undefined;\n    return msg;\n}\n\n//If there is token check if server side has details\nvar details = flow.get(msg.token);\n//If none, then return session undefined\nif(details == undefined)\n{\n    msg.session = undefined;\n}\n//If there is return to front end that session details\nelse\n{\n    //Session details\n    msg.session = \n    {\n        'uniqueid': details.session.uniqueid,\n        'user_id': details.session.user_id,\n        'user_code': details.session.user_code,\n        'user_name': details.session.user_name,\n        'start_Time': undefined\n    };\n    \n    //User Details\n    msg.payload = \n    {\n        'user_id': details.user.user_id,\n        'isActive': details.user.isActive,\n        'user_code': details.user.user_code,\n        'user_name': details.user.user_name,\n        'avatar': details.user.avatar\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 100,
+        "wires": [
+            [
+                "89e1a4ceac90b0d3",
+                "674cd421bd6552f6"
+            ]
+        ]
+    },
+    {
+        "id": "89e1a4ceac90b0d3",
+        "type": "link out",
+        "z": "c06f88104c6b335f",
+        "name": "",
+        "mode": "link",
+        "links": [
+            "dd89e0896485f1a9"
+        ],
+        "x": 635,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "1a0844636fea3a4f",
+        "type": "debug",
+        "z": "c06f88104c6b335f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "674cd421bd6552f6",
+        "type": "debug",
+        "z": "c06f88104c6b335f",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "token",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "096608f9d8d74e86",
+        "type": "debug",
+        "z": "c06f88104c6b335f",
+        "name": "debug 7",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 140,
+        "wires": []
+    }
+]

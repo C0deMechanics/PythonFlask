@@ -1,17 +1,17 @@
 <template>
-    <b-row style="margin-top:5%;margin-left:5%;margin-right:5%;">
+      <b-row style="margin-top:5%;margin-left:5%;margin-right:5%;">
         <b-container>
-            <b-row>
-                <b-col cols="4">
-                    <canvas ref="temp" height="210"></canvas>
-                </b-col>
-                <b-col cols="4">
-                    <canvas ref="hum" height="210"></canvas>
-                </b-col>
-                <b-col cols="4">
-                    <canvas ref="pres" height="210"></canvas>
-                </b-col>
-        </b-row>
+        <b-row>
+            <b-col cols="4">
+                <canvas ref="temp" height="210"></canvas>
+            </b-col>
+            <b-col cols="4">
+                <canvas ref="hum" height="210"></canvas>
+            </b-col>
+            <b-col cols="4">
+                <canvas ref="pres" height="210"></canvas>
+            </b-col>
+      </b-row>
         <b-col cols="12">
             <b-pagination v-model="currentPage"
                           :total-rows="rows"
@@ -37,24 +37,24 @@ module.exports = {
         return {
             perPage: 5,
             currentPage: 1,
-            items: [ ],
-             client: undefined, //mqtt client
-            isMonitoring:false, //flag for monitring
-            temp:[],            //values for tem
-            tempLabels:[],      //chart labels    
-            tmpChart:undefined, //var to hold chart
-            humidity:[],        //values for humidity 
-            humLabels:[],       //labels
-            humChart:undefined, //var to hold chart
-            pressure:[],        //values for pressure
-            presLabels:[],      //labels
-            presChart:undefined, //var to hold chart
+            items: [],
+            client: undefined,
+            isMonitoring:false,
+            temp:[],
+            tempLabels:[],
+            tmpChart:undefined,
+            humidity:[],
+            humLabels:[],
+            humChart:undefined,
+            pressure:[],
+            presLabels:[],
+            presChart:undefined,
         }
     },
     mounted(){
-        this.retrieveData(); //retrieve master of sensor detail
-        this.monitor();      //method to start mqtt  
-        this.createChart();  //display data as chart
+        this.retrieveData();
+        this.monitor();
+        this.createChart();
     },
     computed: {
       rows() {
@@ -152,16 +152,17 @@ module.exports = {
         retrieveData(){
             axios.get('/tuts/IoTParameters')
             .then((resp) => { 
-                this.items = resp.data; //displays data
+                this.items = resp.data; 
+                // console.log(resp.data)   
             })
             .catch(errors => { console.error(errors); });;
         },
         monitor(){
-            this.isMonitoring = !this.isMonitoring;  
-            if(this.isMonitoring){ this.connect(); }
-            else{  }
-        },
-        connect(){
+                this.isMonitoring = !this.isMonitoring;  
+                if(this.isMonitoring){ this.connect(); }
+                else{  }
+            },
+            connect(){
 
                 let self = this;
                 let clientid = 'iot-code-mechanic' + Math.floor(Math.random() * 8999 + 1000);
@@ -170,6 +171,8 @@ module.exports = {
                 self.client.onMessageArrived = onMessageArrived;
                 self.client.connect({onSuccess:onConnect,userName:"",password:"",keepAliveInterval: 15,timeout: 15000});
                
+
+
                 function onConnect(){ 
                     self.client.subscribe("/MQTT/Temp");
                     self.client.subscribe("/MQTT/Humidity");
@@ -235,18 +238,18 @@ module.exports = {
                         if(self.presChart!=null)
                             self.presChart.update('none')
                     }
-            }
-
-        },
-    },
-    beforeDestroy(){
-        if(this.client!=undefined){
-            this.client.disconnect();
-            console.log("Terminate MQTT")
-        }
-    },
-    disconnect(){
-        if(this.client!=undefined){ this.client.disconnect(); }
-    },
+                }
+            },
+            beforeDestroy(){
+           
+                if(this.client!=undefined){
+                    this.client.disconnect();
+                    console.log("Terminate MQTT")
+                }
+            },
+            disconnect(){
+                if(this.client!=undefined){ this.client.disconnect(); }
+            },
+    }, 
 }
 </script>

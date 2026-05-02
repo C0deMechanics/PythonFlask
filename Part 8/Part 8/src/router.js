@@ -2,7 +2,7 @@ const Home = httpVueLoader('./components/subcomponents/home.vue');
 const Form = httpVueLoader('./components/subcomponents/form.vue');
 const Table = httpVueLoader('./components/subcomponents/table.vue');
 const Chart = httpVueLoader('./components/subcomponents/chart.vue');
-const IoT = httpVueLoader('./components/subcomponents/Monitoring.vue')
+const IoT = httpVueLoader('./components/IoT/Monitoring.vue')
 
 export default {
 

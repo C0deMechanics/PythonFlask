@@ -43,31 +43,24 @@
      methods: {
          login(){
             var self = this;
-            var result = this.keys.performLogin(this.postBody.usercode, this.postBody.password );
-            if(result){ 
-                this.keys.loginSuccess();
-                this.postBody.usercode = "";
-                this.postBody.password = "";
-                this.errormessage = "";
-            }
-            else { this.errormessage = "Incorrect username or password." }
-            
-               // var password = CryptoJS.MD5(this.postBody.password).toString();
-               // this.errormessage = '';
-               // if(this.postBody.usercode != '' && this.postBody.password!=''){
-               //     this.keys.API.POST('login',{ user_id: this.postBody.usercode, encrypted: password })
-               //     .then(res=>{ 
-               //         if(res.user_id != ''){
-               //             this.postBody.usercode = ''; 
-               //             this.postBody.password = '';
-                           
-               //             this.keys.API.setToken(res.Token);
-               //             this.keys.user.setLogin(true);
-               //             this.keys.user.setUser(res);
-               //         } else { this.errormessage = 'Incorrect Usercode or Password.'; }
-               //     }).catch(e=>{ this.errormessage = e.message; });
-            }
-        }
+            var password = MD5(this.postBody.password).toString();
+            this.errormessage = '';
+            if(this.postBody.usercode != '' && this.postBody.password!=''){
+               axios.post('/tuts/login',{ user_code: this.postBody.usercode, password: password })
+               .then(res=>{
+                   if(res.data.length>0){
+                    if(res.data[0].user_id != ''){
+                        this.postBody.usercode = ''; 
+                        this.postBody.password = '';
+                        this.keys.setToken(res.data[0]);
+                        this.keys.loginSuccess();
+                        this.keys.user.setUser(res.data[0]);
+                     } else { this.errormessage = 'Incorrect Usercode or Password.'; }
+                   } { this.errormessage = 'Incorrect Usercode or Password.'; }
+               }).catch(e=>{  });
+            }   
+         }
+     }
  }
  </script>
  <style scoped>
