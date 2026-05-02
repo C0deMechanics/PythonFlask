@@ -15,24 +15,22 @@
 module.exports = {
     data() {
         return {
-            itemslist:[]  //Holds items retrieved from database
+            itemslist:[],
+            bills:{ elec_total: 0, wat_total: 0, net_total: 0 }
         };
     },
     mounted(){
+        // this.createChart();
         this.getItems();
     },
     methods: {
-
-        //Gets items from database
         getItems(){
-            
-            //creates the get request 
-            axios.get('/tuts/report')
+             return axios.get('/tuts/report')
             .then((resp) => { 
                 
-                var grandTotal = 0; //Total expenses of the year 2019
+                var grandTotal = 0;
                 
-                var monthTotal = {  //Used for monthly total
+                var monthTotal = {
                     '1':0,
                     '2':0,
                     '3':0,
@@ -47,7 +45,6 @@ module.exports = {
                     '12':0
                 };
 
-                //Used to create the datasets
                 var Internet = {
                     items:[],
                     sum:0,
@@ -66,12 +63,8 @@ module.exports = {
                     sum:0,
                     percent:0
                 };
-                //Used to create the datasets
-
 
                 this.itemslist = resp.data;
-                
-                //Loop on each row and compute sum
                 this.itemslist.forEach(elem=>{
                     switch(elem.Entry_Name){
                         case 'Electricity':
@@ -88,7 +81,6 @@ module.exports = {
                             break;       
                     }
 
-                    //Sum per month
                     switch(elem.Entry_Month){
                         case 'Jan':
                             monthTotal['1'] += elem.Entry_Amount;
@@ -128,13 +120,11 @@ module.exports = {
                             break;                                
                     }    
 
-
-                    //Grand total
                     grandTotal+= elem.Entry_Amount;
                 });
                 
-                //Format to 2 decimal places
-                grandTotal = grandTotal.toFixed(2);  
+
+                grandTotal = grandTotal.toFixed(2);
 
                 electric.sum = electric.sum.toFixed(2);
                 water.sum = water.sum.toFixed(2);
@@ -144,9 +134,7 @@ module.exports = {
                 water.percent = ((water.sum/grandTotal)*100).toFixed(2);
                 Internet.percent = ((Internet.sum/grandTotal)*100).toFixed(2);
 
-                //Format to 2 decimal places
 
-                //Format to more readable json
                 var formatted = {
                     'elec':electric,
                     'water':water,
@@ -154,7 +142,6 @@ module.exports = {
                     'monthly':monthTotal
                 }
 
-                //Call the method create chart inside axios
                 this.createChart(formatted)
 
             }).catch(errors => { console.error(errors); });;
@@ -163,13 +150,10 @@ module.exports = {
 
                 var monthly = [];
 
-                //Loop each key inside the object
                 Object.keys(param.monthly).forEach(key=>{ 
                     monthly.push(param.monthly[key]);
                 });
 
-                //Access canvas anc create chart line + bar chart
-                //Displays monthly expense
                 var context = this.$refs['mycanvas'].getContext("2d")
                 new Chart(context, {
                 type: 'bar',
@@ -214,8 +198,6 @@ module.exports = {
                 }
             });
 
-            //Access the 2nd canvas
-            //Displays the percentage of electric, water and internet expense year 2019
             var context2 = this.$refs['mycanvas2'].getContext("2d")
             new Chart(context2, {
                 type: 'pie',
@@ -234,11 +216,9 @@ module.exports = {
                             text: 'Utility Bills 2019'
                         },
                         tooltip: {
-                            //Call back during display of tool tip
                             callbacks: {
                                 label: function(data) {
                                     let label = `${data.label} ${data.raw} %`
-                                    console.log(data);
                                     return label;
                                 }
                             }

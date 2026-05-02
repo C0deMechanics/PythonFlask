@@ -10,6 +10,7 @@
         <b-nav-item href="#" to="/form">Form</b-nav-item>
         <b-nav-item href="#" to="/table">Table</b-nav-item>
         <b-nav-item href="#" to="/chart">Chart</b-nav-item>
+         <b-nav-item href="#" to="/iot">MQTT</b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown right>

@@ -2,6 +2,7 @@ const Home = httpVueLoader('./components/subcomponents/home.vue');
 const Form = httpVueLoader('./components/subcomponents/form.vue');
 const Table = httpVueLoader('./components/subcomponents/table.vue');
 const Chart = httpVueLoader('./components/subcomponents/chart.vue');
+const IoT = httpVueLoader('./components/subcomponents/Monitoring.vue')
 
 export default {
 
@@ -10,6 +11,11 @@ export default {
             path: '/',
             name: 'Home',
             components: Home
+        },
+        {
+            path: '/iot',
+            name: 'IoT',
+            component: IoT
         },
         {
             path:'/home',
